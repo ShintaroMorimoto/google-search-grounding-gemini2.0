@@ -37,7 +37,7 @@ export default defineConfig(({ mode }) => {
       plugins: [client({ jsxImportSource: 'react' })],
       build: {
         rollupOptions: {
-          input: ['./app/style.css'],
+          input: ['./app/style.css'], // app/client.tsかも
           output: {
             entryFileNames: 'static/client.js',
             chunkFileNames: 'static/assets/[name]-[hash].js',

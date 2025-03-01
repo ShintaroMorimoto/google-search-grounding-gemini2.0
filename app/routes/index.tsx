@@ -4,7 +4,7 @@ import { addCitations } from '../lib/citation';
 import callGemini from '../lib/gemini';
 import { getWebsiteMetadata } from '../lib/metadata';
 import { extractStyleContent } from '../lib/suggestion';
-import {
+import type {
   GroundingCitation,
   GroundingSource,
 } from '../types/googleSearchGrounding';
@@ -17,6 +17,7 @@ export const POST = createRoute(async (c) => {
   }
 
   const response = await callGemini(body.messages);
+  console.log(response);
   if (response[0]?.error?.code === 401) {
     return c.json({ error: 'Unauthorized' }, 401);
   }
