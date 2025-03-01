@@ -1,4 +1,4 @@
-import { MessagePart } from '../types/googleSearchGrounding';
+import type { MessagePart } from '../types/googleSearchGrounding';
 
 export function parseMessage(message: string): MessagePart[] {
   const parts: MessagePart[] = [];

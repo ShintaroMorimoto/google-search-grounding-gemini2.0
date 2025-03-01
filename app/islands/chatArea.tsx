@@ -1,9 +1,10 @@
 import { v4 as uuid } from 'uuid';
 import { parseMessage } from '../lib/parseMessage';
 import { sanitizeHtml } from '../lib/sanitize';
-import { ChatTurn, ChatMessage } from '../types/googleSearchGrounding';
+import type { ChatTurn, ChatMessage } from '../types/googleSearchGrounding';
 import Sources from '../components/Sources';
-import { FormEvent, useState } from 'react';
+import type { FormEvent } from 'react';
+import { useState } from 'react';
 
 export default function ChatArea() {
   const [message, setMessage] = useState('');

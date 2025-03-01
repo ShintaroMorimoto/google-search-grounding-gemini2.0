@@ -1,4 +1,4 @@
-import {
+import type {
   GroundingCitation,
   GroundingSource,
 } from '../types/googleSearchGrounding';
