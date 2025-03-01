@@ -1,13 +1,86 @@
-import { createRoute } from 'honox/factory'
-import Counter from '../islands/counter'
+import { createRoute } from 'honox/factory';
+import ChatArea from '../islands/chatArea';
+import { addCitations } from '../lib/citation';
+import callGemini from '../lib/gemini';
+import { getWebsiteMetadata } from '../lib/metadata';
+import { extractStyleContent } from '../lib/suggestion';
+import {
+  GroundingCitation,
+  GroundingSource,
+} from '../types/googleSearchGrounding';
+
+export const POST = createRoute(async (c) => {
+  console.log('POST request received');
+  const body = await c.req.json();
+  if (!body.messages) {
+    return c.json({ error: 'No messages provided' }, 400);
+  }
+
+  const response = await callGemini(body.messages);
+  if (response[0]?.error?.code === 401) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
+
+  let text = '';
+  let searchEntryPointWithoutDarkMode = '';
+  const groundingCitations: GroundingCitation[] = [];
+  const groundingSources: GroundingSource[] = [];
+  for (const candidate of response) {
+    text = text + candidate.candidates[0].content.parts[0].text;
+    if (candidate.candidates[0].groundingMetadata) {
+      const searchEntryPoint =
+        candidate.candidates[0].groundingMetadata.searchEntryPoint
+          .renderedContent;
+      searchEntryPointWithoutDarkMode = extractStyleContent(searchEntryPoint);
+
+      for (const groundingChunk of candidate.candidates[0].groundingMetadata
+        .groundingChunks) {
+        if (groundingChunk.web) {
+          const { title, faviconUrl } = await getWebsiteMetadata(
+            groundingChunk.web.uri,
+            groundingChunk.web.title
+          );
+          groundingSources.push({
+            title,
+            domain: groundingChunk.web.title,
+            uri: groundingChunk.web.uri,
+            faviconUrl: faviconUrl,
+          });
+        }
+      }
+
+      for (const groundingSupport of candidate.candidates[0].groundingMetadata
+        .groundingSupports) {
+        groundingCitations.push({
+          referenceNumber: groundingSupport.groundingChunkIndices,
+          correspondingText: groundingSupport.segment.text,
+        });
+      }
+    }
+  }
+
+  const parsedMessage = addCitations(
+    text,
+    groundingSources,
+    groundingCitations
+  );
+
+  return c.json({
+    message: parsedMessage,
+    searchEntryPointWithoutDarkMode,
+    groundingSources,
+  });
+});
 
 export default createRoute((c) => {
-  const name = c.req.query('name') ?? 'Hono'
   return c.render(
-    <div class="py-8 text-center">
-      <title>{name}</title>
-      <h1 class="text-3xl font-bold">Hello, {name}!</h1>
-      <Counter />
+    <div className='h-screen flex flex-col'>
+      <header className='bg-white border-b px-4 py-2'>
+        <h1>Gemini 2.0 Grounding with Google Search</h1>
+      </header>
+      <div className='flex-1 overflow-hidden'>
+        <ChatArea />
+      </div>
     </div>
-  )
-})
+  );
+});
