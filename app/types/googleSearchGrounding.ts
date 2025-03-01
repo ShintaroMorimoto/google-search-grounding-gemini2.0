@@ -20,3 +20,10 @@ export type MessagePart = {
   content: string;
   href?: string;
 };
+
+export type ChatMessage = {
+  content: string;
+  isUser: boolean;
+  groundingSources?: GroundingSource[];
+  searchEntryPoint?: string;
+};

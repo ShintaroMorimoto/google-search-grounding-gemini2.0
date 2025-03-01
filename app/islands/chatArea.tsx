@@ -1,24 +1,16 @@
-import { useState } from 'hono/jsx';
 import { v4 as uuid } from 'uuid';
 import { parseMessage } from '../lib/parseMessage';
 import { sanitizeHtml } from '../lib/sanitize';
-import { GroundingSource, ChatTurn } from '../types/googleSearchGrounding';
+import { ChatTurn, ChatMessage } from '../types/googleSearchGrounding';
 import Sources from '../components/Sources';
-import { FormEvent } from 'react';
-
-interface ChatMessage {
-  content: string;
-  isUser: boolean;
-  groundingSources?: GroundingSource[];
-  searchEntryPoint?: string;
-}
+import { FormEvent, useState } from 'react';
 
 export default function ChatArea() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [chatHistory, setChatHistory] = useState<ChatTurn[]>([]);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('message in handleSubmit', message);
 
@@ -139,7 +131,7 @@ export default function ChatArea() {
           <input
             type='text'
             value={message}
-            onInput={(e) => setMessage((e.target as HTMLInputElement).value)}
+            onChange={(e) => setMessage(e.target.value)}
             className='flex-1 p-2 border rounded-lg focus:outline-none focus:border-blue-500'
             placeholder='メッセージを入力してください...'
           />

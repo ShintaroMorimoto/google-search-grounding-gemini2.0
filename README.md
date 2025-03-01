@@ -33,6 +33,8 @@ gcloud auth print-access-token
 npm ci && npm run dev
 ```
 
+アクセストークンの期限は〇分なので、401 エラーになったらそれかも
+
 ## 参考 URL
 
 ### Grounding With Google Search
