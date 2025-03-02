@@ -4,7 +4,7 @@ const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
 const MODEL_ID = import.meta.env.VITE_MODEL_ID;
 const GENERATE_CONTENT_API = import.meta.env.VITE_GENERATE_CONTENT_API;
 
-import type { ChatTurn } from '../types/googleSearchGrounding';
+import type { ChatTurn } from '../types/chat';
 
 const callGemini = async (messages: ChatTurn[]) => {
   const content = {

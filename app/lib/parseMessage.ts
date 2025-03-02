@@ -1,4 +1,4 @@
-import type { MessagePart } from '../types/googleSearchGrounding';
+import type { MessagePart } from '../types/chat';
 
 export function parseMessage(message: string): MessagePart[] {
   const parts: MessagePart[] = [];
@@ -8,7 +8,8 @@ export function parseMessage(message: string): MessagePart[] {
   let lastIndex = 0;
   let match: RegExpExecArray | null;
 
-  while ((match = linkRegex.exec(message)) !== null) {
+  match = linkRegex.exec(message);
+  while (match !== null) {
     // マッチの前のテキストを追加
     if (match.index > lastIndex) {
       parts.push({
@@ -25,6 +26,7 @@ export function parseMessage(message: string): MessagePart[] {
     });
 
     lastIndex = match.index + match[0].length;
+    match = linkRegex.exec(message);
   }
 
   // 残りのテキストを追加

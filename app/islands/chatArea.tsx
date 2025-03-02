@@ -1,8 +1,9 @@
 import { v4 as uuid } from 'uuid';
 import { parseMessage } from '../lib/parseMessage';
 import { sanitizeHtml } from '../lib/sanitize';
-import type { ChatTurn, ChatMessage } from '../types/googleSearchGrounding';
-import Sources from '../components/Sources';
+import type { ChatTurn, ChatMessage } from '../types/chat';
+import Sources from '../components/style/Sources';
+import ChatInput from '../components/style/ChatInput';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 
@@ -63,7 +64,7 @@ export default function ChatArea() {
         content: data.message,
         isUser: false,
         groundingSources: data.groundingSources,
-        searchEntryPoint: data.searchEntryPoint,
+        searchEntryPoint: data.searchEntryPointWithoutDarkMode,
       },
     ]);
   };
@@ -100,50 +101,28 @@ export default function ChatArea() {
               </div>
               {!msg.isUser && msg.groundingSources && (
                 <div className='mt-4 overflow-x-auto'>
-                  <Sources sources={msg.groundingSources} />
+                  {msg.groundingSources.length > 0 && (
+                    <Sources sources={msg.groundingSources} />
+                  )}
                 </div>
               )}
               {!msg.isUser && msg.searchEntryPoint && (
-                <div className='mt-4'>
-                  {parseMessage(msg.searchEntryPoint).map((part) =>
-                    part.type === 'link' ? (
-                      <a
-                        key={`search-link-${uuid()}`}
-                        href={part.href}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='text-blue-500 underline break-all'
-                      >
-                        {part.content}
-                      </a>
-                    ) : (
-                      <span key={`search-text-${uuid()}`}>{part.content}</span>
-                    )
-                  )}
-                </div>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: msg.searchEntryPoint,
+                  }}
+                />
               )}
             </div>
           </div>
         ))}
       </div>
 
-      <div className='p-4 bg-white border-t'>
-        <form onSubmit={handleSubmit} className='flex gap-2'>
-          <input
-            type='text'
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            className='flex-1 p-2 border rounded-lg focus:outline-none focus:border-blue-500'
-            placeholder='メッセージを入力してください...'
-          />
-          <button
-            type='submit'
-            className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors'
-          >
-            送信
-          </button>
-        </form>
-      </div>
+      <ChatInput
+        message={message}
+        setMessage={setMessage}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 }

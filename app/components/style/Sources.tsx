@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { FC } from 'react';
-import { GroundingSource } from '../types/googleSearchGrounding';
-import { Card, CardContent } from './ui/card';
-import { Avatar, AvatarImage } from './ui/avatar';
-import { Button } from './ui/button';
-import { ScrollArea } from './ui/scroll-area';
+import type { FC } from 'react';
+import type { GroundingSource } from '../../types/googleSearchGrounding';
+import { Card, CardContent } from '../ui/card';
+import { Avatar, AvatarImage } from '../ui/avatar';
+import { Button } from '../ui/button';
+import { ScrollArea } from '../ui/scroll-area';
 
 const Sources: FC<{ sources: GroundingSource[] }> = ({ sources }) => {
   const [isVisible, setIsVisible] = useState(false);

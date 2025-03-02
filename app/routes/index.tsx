@@ -28,7 +28,7 @@ export const POST = createRoute(async (c) => {
   const groundingSources: GroundingSource[] = [];
   for (const candidate of response) {
     text = text + candidate.candidates[0].content.parts[0].text;
-    if (candidate.candidates[0].groundingMetadata) {
+    if (candidate.candidates[0].groundingMetadata?.groundingChunks) {
       const searchEntryPoint =
         candidate.candidates[0].groundingMetadata.searchEntryPoint
           .renderedContent;
