@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react';
+import type { FC, FormEvent } from 'react';
 
 interface ChatInputProps {
   message: string;
@@ -6,11 +6,7 @@ interface ChatInputProps {
   onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
-export default function ChatInput({
-  message,
-  setMessage,
-  onSubmit,
-}: ChatInputProps) {
+const ChatInput: FC<ChatInputProps> = ({ message, setMessage, onSubmit }) => {
   return (
     <div className='p-4 bg-white border-t'>
       <form onSubmit={onSubmit} className='flex gap-2'>
@@ -30,4 +26,6 @@ export default function ChatInput({
       </form>
     </div>
   );
-}
+};
+
+export default ChatInput;

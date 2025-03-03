@@ -17,7 +17,6 @@ export const POST = createRoute(async (c) => {
   }
 
   const response = await callGemini(body.messages);
-  console.log(response);
   if (response[0]?.error?.code === 401) {
     return c.json({ error: 'Unauthorized' }, 401);
   }

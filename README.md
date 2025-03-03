@@ -5,7 +5,6 @@ Google 検索によるグラウンディングの UI 参照実装
 # TODO
 
 - 回答をストリーミングで表示させる
-- ソースのデザインを整える
 - Google 検索オン/オフ
 - マークダウン対応
 - 引用として表示される番号の順番が逆になってたりおかしいので直す
@@ -13,9 +12,7 @@ Google 検索によるグラウンディングの UI 参照実装
 
 ## クイックスタート
 
-- `.env.template`を`.env`にリネーム。プロジェクト ID を入れる
-
-- アクセストークンを取得して `.env` に入れる
+- `.env.template`を`.env`にリネーム。アクセストークンを取得して `.env` に入れる
 
 ```sh
 gcloud auth login
@@ -24,6 +21,10 @@ gcloud auth login
 ```sh
 gcloud auth print-access-token
 ```
+
+- プロジェクト ID を `.env`に入れる
+
+- 起動
 
 ```sh
 npm ci && npm run dev
@@ -35,7 +36,7 @@ npm ci && npm run dev
 
 ### Grounding With Google Search
 
-- [Gemini 2.0 公式ドキュメント](https://cloud.google.com/vertex-ai/generative-ai/docs/grounding-with
+- [Gemini 2.0 公式ドキュメント](https://cloud.google.com/vertex-ai/generative-ai/docs/grounding-with-search)
 
 ### HonoX
 

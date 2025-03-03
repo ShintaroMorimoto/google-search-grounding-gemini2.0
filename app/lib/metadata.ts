@@ -7,19 +7,7 @@ export async function getWebsiteMetadata(url: string, originalDomain: string) {
     const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
     const title = titleMatch ? titleMatch[1].trim() : '';
 
-    // ファビコンの抽出
-    let faviconUrl = '';
-    const faviconMatch = html.match(
-      /<link[^>]*rel=["'](?:shortcut )?icon["'][^>]*href=["']([^"']+)["'][^>]*>/i
-    );
-
-    // オリジナルドメインを使用してファビコンURLを構築
-    const baseUrl = `https://${originalDomain}`;
-    if (faviconMatch) {
-      faviconUrl = new URL(faviconMatch[1], baseUrl).href;
-    } else {
-      faviconUrl = new URL('/favicon.ico', baseUrl).href;
-    }
+    const faviconUrl = `http://www.google.com/s2/favicons?domain=${originalDomain}`;
 
     return { title, faviconUrl };
   } catch (error) {

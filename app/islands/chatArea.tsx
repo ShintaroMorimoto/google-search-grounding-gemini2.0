@@ -7,7 +7,7 @@ import ChatInput from '../components/style/ChatInput';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 
-export default function ChatArea() {
+const ChatArea = () => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [chatHistory, setChatHistory] = useState<ChatTurn[]>([]);
@@ -125,4 +125,6 @@ export default function ChatArea() {
       />
     </div>
   );
-}
+};
+
+export default ChatArea;
