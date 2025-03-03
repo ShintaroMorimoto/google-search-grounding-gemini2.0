@@ -2,8 +2,11 @@ import type { MessagePart } from '../types/chat';
 
 export function parseMessage(message: string): MessagePart[] {
   const parts: MessagePart[] = [];
-  const linkRegex =
-    /<a[^>]*href="([^"]+)"[^>]*style="[^"]*"[^>]*>([^<]+)<\/a>/g;
+
+  // より柔軟な正規表現パターン
+  const linkRegex = /<a([^>]*)>([^<]+)<\/a>/g;
+  const hrefRegex = /href="([^"]*)"/;
+  const classRegex = /class="([^"]*)"/;
 
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -18,11 +21,23 @@ export function parseMessage(message: string): MessagePart[] {
       });
     }
 
+    const attributes = match[1];
+    const content = match[2];
+
+    // href属性を抽出
+    const hrefMatch = attributes.match(hrefRegex);
+    const href = hrefMatch ? hrefMatch[1] : '';
+
+    // class属性を抽出
+    const classMatch = attributes.match(classRegex);
+    const className = classMatch ? classMatch[1] : '';
+
     // リンクを追加
     parts.push({
       type: 'link',
-      content: match[2], // リンクテキスト
-      href: match[1], // href属性
+      content: content,
+      href: href,
+      className: className || undefined,
     });
 
     lastIndex = match.index + match[0].length;

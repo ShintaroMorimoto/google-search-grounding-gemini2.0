@@ -58,6 +58,7 @@ export const POST = createRoute(async (c) => {
       }
     }
   }
+  console.log('text', text);
 
   const parsedMessage = addCitations(
     text,

@@ -12,14 +12,21 @@ export const addCitations = (
 
   for (const citation of citations) {
     const citationNumber = citation.referenceNumber;
-    const citationText = citation.correspondingText;
+    const citationText = citation.correspondingText.replace(
+      /(?<=[^\s\p{P}])\s+(?=[^\s\p{P}])/gu,
+      ''
+    );
+    console.log('citationNumber', citationNumber);
+    console.log('citationText', citationText);
 
-    for (const index of citationNumber) {
+    const indices = citationNumber.sort((a, b) => b - a);
+
+    for (const index of indices) {
       if (sources[index]) {
         const uri = sources[index].uri;
-        const link = `<a href="${uri}" target="_blank" rel="noopener noreferrer" style="color: blue; text-decoration: underline;">[${
+        const link = `<a href="${uri}" target="_blank" rel="noopener noreferrer" class="align-super text-xs no-underline">${
           index + 1
-        }]</a>`;
+        }</a>`;
         newParsedMessage = newParsedMessage.replace(
           citationText,
           `${citationText}${link}`

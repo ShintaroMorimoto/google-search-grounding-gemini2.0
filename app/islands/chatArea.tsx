@@ -90,7 +90,10 @@ const ChatArea = () => {
                           href={part.href}
                           target='_blank'
                           rel='noopener noreferrer'
-                          className='text-blue-500 underline break-all'
+                          className={
+                            part.className ||
+                            'text-blue-500 underline break-all'
+                          }
                         >
                           {part.content}
                         </a>

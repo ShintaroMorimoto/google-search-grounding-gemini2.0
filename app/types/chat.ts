@@ -9,6 +9,7 @@ export type MessagePart = {
   type: 'text' | 'link';
   content: string;
   href?: string;
+  className?: string;
 };
 
 export type ChatMessage = {

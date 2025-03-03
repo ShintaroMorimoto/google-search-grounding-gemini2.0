@@ -9,11 +9,16 @@ import type { ChatTurn } from '../types/chat';
 const callGemini = async (messages: ChatTurn[]) => {
   const content = {
     contents: messages,
+    systemInstruction: {
+      parts: [
+        {
+          text: '回答文中に「ソース」「情報源」という言葉は使わないでください。また、[1]のような参照元を示す引用を入れないでください。',
+        },
+      ],
+    },
     generationConfig: {
       responseModalities: ['TEXT'],
-      temperature: 1,
-      maxOutputTokens: 8192,
-      topP: 0.95,
+      temperature: 0.0,
     },
     tools: {
       googleSearch: {},
