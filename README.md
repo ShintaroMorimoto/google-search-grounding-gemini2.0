@@ -1,17 +1,9 @@
-# google-search-grounding-gemini2.0
-
-Google 検索によるグラウンディングの UI 参照実装
-
-# TODO
-
-- 回答をストリーミングで表示させる
-- Google 検索オン/オフ
-- マークダウン対応
-- lib が細かすぎる。もっと抽象化してファイルをまとめ
+# Google 検索によるグラウンディングの UI 参照実装
 
 ## クイックスタート
 
-- `.env.template`を`.env`にリネーム。アクセストークンを取得して `.env` に入れる
+1. `.env.template`を`.env`にリネーム
+2. アクセストークンを取得して`.env`にセット
 
 ```sh
 gcloud auth login
@@ -21,15 +13,13 @@ gcloud auth login
 gcloud auth print-access-token
 ```
 
-- プロジェクト ID を `.env`に入れる
+3. プロジェクト ID を`.env`にセット
 
-- 起動
+4. 起動
 
 ```sh
 npm ci && npm run dev
 ```
-
-アクセストークンの期限は〇分なので、401 エラーになったらそれかも
 
 ## 参考 URL
 

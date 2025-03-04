@@ -1,6 +1,5 @@
 import { v4 as uuid } from 'uuid';
 import { parseMessage } from '../lib/parseMessage';
-import { sanitizeHtml } from '../lib/sanitize';
 import type { ChatTurn, ChatMessage } from '../types/chat';
 import Sources from '../components/style/Sources';
 import ChatInput from '../components/style/ChatInput';
@@ -74,7 +73,7 @@ const ChatArea = () => {
       <div className='flex-1 p-4 overflow-y-auto'>
         {messages.map((msg, index) => (
           <div
-            key={`message-${index}`}
+            key={uuid()}
             className={`flex ${
               msg.isUser ? 'justify-end pr-8' : 'justify-start pl-8'
             } mb-4 mx-auto max-w-[50%]`}
@@ -88,11 +87,11 @@ const ChatArea = () => {
             >
               <div className='break-words'>
                 {msg.isUser
-                  ? sanitizeHtml(msg.content)
-                  : parseMessage(msg.content).map((part, partIndex) =>
+                  ? msg.content
+                  : parseMessage(msg.content).map((part) =>
                       part.type === 'link' ? (
                         <a
-                          key={`link-${index}-${partIndex}`}
+                          key={uuid()}
                           href={part.href}
                           target='_blank'
                           rel='noopener noreferrer'
@@ -104,9 +103,7 @@ const ChatArea = () => {
                           {part.content}
                         </a>
                       ) : (
-                        <span key={`text-${index}-${partIndex}`}>
-                          {part.content}
-                        </span>
+                        <span key={uuid()}>{part.content}</span>
                       )
                     )}
               </div>

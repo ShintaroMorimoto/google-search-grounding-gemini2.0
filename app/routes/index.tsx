@@ -1,13 +1,15 @@
 import { createRoute } from 'honox/factory';
 import ChatArea from '../islands/chatArea';
-import { addCitations } from '../lib/citation';
-import callGemini from '../lib/gemini';
-import { getWebsiteMetadata } from '../lib/metadata';
-import { extractStyleContent } from '../lib/suggestion';
+import {
+  addCitations,
+  getWebsiteMetadata,
+  extractStyleContent,
+} from '../lib/googleSearchGrounding';
 import type {
   GroundingCitation,
   GroundingSource,
 } from '../types/googleSearchGrounding';
+import callGemini from '@/lib/gemini';
 
 export const POST = createRoute(async (c) => {
   console.log('POST request received');
