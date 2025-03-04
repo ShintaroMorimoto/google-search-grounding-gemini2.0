@@ -16,8 +16,6 @@ export const addCitations = (
       /(?<=[^\s\p{P}])\s+(?=[^\s\p{P}])/gu,
       ''
     );
-    console.log('citationNumber', citationNumber);
-    console.log('citationText', citationText);
 
     const indices = citationNumber.sort((a, b) => b - a);
 

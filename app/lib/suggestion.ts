@@ -3,9 +3,9 @@ export const extractStyleContent = (responseSuggestions: string) => {
     /<a /g,
     '<a target="_blank" '
   );
-  const styleContentWithoutDarkMode = styleContentWithTargetBlank.replace(
+  const styleContentWithOnlyDarkMode = styleContentWithTargetBlank.replace(
     /@media \(prefers-color-scheme: (light)\) \{[\s\S]*?\}/g,
     ''
   );
-  return styleContentWithoutDarkMode;
+  return styleContentWithOnlyDarkMode;
 };

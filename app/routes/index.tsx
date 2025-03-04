@@ -75,9 +75,11 @@ export const POST = createRoute(async (c) => {
 
 export default createRoute((c) => {
   return c.render(
-    <div className='h-screen flex flex-col'>
-      <header className='bg-white border-b px-4 py-2'>
-        <h1>Gemini 2.0 Grounding with Google Search</h1>
+    <div className='h-screen flex flex-col bg-white'>
+      <header className='bg-white px-4 py-3'>
+        <h1 className='text-gray-900 font-medium'>
+          Gemini 2.0 Grounding with Google Search
+        </h1>
       </header>
       <div className='flex-1 overflow-hidden'>
         <ChatArea />

@@ -70,40 +70,48 @@ const ChatArea = () => {
   };
 
   return (
-    <div className='h-full flex flex-col'>
-      <div className='flex-1 bg-gray-100 p-4 overflow-y-auto'>
-        {messages.map((msg) => (
+    <div className='h-full flex flex-col bg-white'>
+      <div className='flex-1 p-4 overflow-y-auto'>
+        {messages.map((msg, index) => (
           <div
-            key={uuid()}
+            key={`message-${index}`}
             className={`flex ${
-              msg.isUser ? 'justify-start' : 'justify-end'
-            } mb-2`}
+              msg.isUser ? 'justify-end pr-8' : 'justify-start pl-8'
+            } mb-4 mx-auto max-w-[50%]`}
           >
-            <div className='rounded-lg p-3 max-w-[70%] bg-white text-black'>
+            <div
+              className={`rounded-lg p-4 ${
+                msg.isUser
+                  ? 'bg-[#10a37f] text-white max-w-[80%]'
+                  : 'bg-gray-50 border text-gray-900 max-w-[80%]'
+              }`}
+            >
               <div className='break-words'>
                 {msg.isUser
                   ? sanitizeHtml(msg.content)
-                  : parseMessage(msg.content).map((part) =>
+                  : parseMessage(msg.content).map((part, partIndex) =>
                       part.type === 'link' ? (
                         <a
-                          key={`link-${uuid()}`}
+                          key={`link-${index}-${partIndex}`}
                           href={part.href}
                           target='_blank'
                           rel='noopener noreferrer'
                           className={
                             part.className ||
-                            'text-blue-500 underline break-all'
+                            'text-blue-600 underline break-all hover:text-blue-800'
                           }
                         >
                           {part.content}
                         </a>
                       ) : (
-                        <span key={`text-${uuid()}`}>{part.content}</span>
+                        <span key={`text-${index}-${partIndex}`}>
+                          {part.content}
+                        </span>
                       )
                     )}
               </div>
               {!msg.isUser && msg.groundingSources && (
-                <div className='mt-4 overflow-x-auto'>
+                <div className='mt-4 overflow-x-auto text-gray-700'>
                   {msg.groundingSources.length > 0 && (
                     <Sources sources={msg.groundingSources} />
                   )}
