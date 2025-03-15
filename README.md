@@ -28,11 +28,13 @@ gcloud auth print-access-token
 npm ci && npm run dev
 ```
 
-## 参考 URL
+## 関連 URL
 
 ### Grounding With Google Search
 
 - [Gemini 2.0 公式ドキュメント](https://cloud.google.com/vertex-ai/generative-ai/docs/grounding-with-search)
+- [Grounding 公式ドキュメント](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/ground-with-google-search)
+- [実装時の Tips などを紹介している記事](https://zenn.dev/mrmtsntr/articles/4273b26eddfa6f)
 
 ### HonoX
 
