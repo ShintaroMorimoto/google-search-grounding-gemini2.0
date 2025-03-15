@@ -42,13 +42,13 @@ export const addCitations = (
   }
 
   // 一度にすべての置換を実行
-  let newParsedMessage = responseText;
+  let newResponseText = responseText;
   for (const [original, replacement] of replacementMap.entries()) {
     // 正規表現を使わず単純な文字列置換を使用
-    newParsedMessage = newParsedMessage.split(original).join(replacement);
+    newResponseText = newResponseText.split(original).join(replacement);
   }
 
-  return newParsedMessage;
+  return newResponseText;
 };
 
 export async function getWebsiteMetadata(url: string, originalDomain: string) {
