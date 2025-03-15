@@ -22,6 +22,11 @@ export const POST = createRoute(async (c) => {
   if (response[0]?.error?.code === 401) {
     return c.json({ error: 'Unauthorized' }, 401);
   }
+  if (response[0]?.error?.code === 403) {
+    return c.json({ error: 'Permission denied' }, 403);
+  }
+
+  console.log('response', response);
 
   let text = '';
   let searchEntryPointWithoutDarkMode = '';
