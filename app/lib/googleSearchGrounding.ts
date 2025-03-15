@@ -3,35 +3,52 @@ import type {
   GroundingSource,
 } from '../types/googleSearchGrounding';
 
+// ... existing code ...
 export const addCitations = (
   parsedMessage: string,
   sources: GroundingSource[],
   citations: GroundingCitation[]
 ): string => {
-  let newParsedMessage = parsedMessage;
+  // 文字列の複数回置換を避けるためのマップを作成
+  const replacementMap = new Map<string, string>();
 
   for (const citation of citations) {
-    const citationNumber = citation.referenceNumber;
     const citationText = citation.correspondingText.replace(
       /(?<=[^\s\p{P}])\s+(?=[^\s\p{P}])/gu,
       ''
     );
 
-    const indices = citationNumber.sort((a, b) => b - a);
+    if (!replacementMap.has(citationText)) {
+      let links = '';
 
-    for (const index of indices) {
-      if (sources[index]) {
-        const uri = sources[index].uri;
-        const link = `<a href="${uri}" target="_blank" rel="noopener noreferrer" class="align-super text-xs no-underline">${
-          index + 1
-        }</a>`;
-        newParsedMessage = newParsedMessage.replace(
-          citationText,
-          `${citationText}${link}`
-        );
+      // 重複するインデックス番号を削除
+      const uniqueIndices = [...new Set(citation.referenceNumber)].sort(
+        (a, b) => a - b
+      );
+
+      for (const index of uniqueIndices) {
+        if (sources[index]) {
+          links += `<a href="${
+            sources[index].uri
+          }" target="_blank" rel="noopener noreferrer" class="align-super text-xs no-underline">${
+            index + 1
+          }</a>`;
+        }
+      }
+
+      if (links) {
+        replacementMap.set(citationText, `${citationText}${links}`);
       }
     }
   }
+
+  // 一度にすべての置換を実行
+  let newParsedMessage = parsedMessage;
+  for (const [original, replacement] of replacementMap.entries()) {
+    // 正規表現を使わず単純な文字列置換を使用
+    newParsedMessage = newParsedMessage.split(original).join(replacement);
+  }
+
   return newParsedMessage;
 };
 
