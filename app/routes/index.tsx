@@ -26,14 +26,14 @@ export const POST = createRoute(async (c) => {
     return c.json({ error: 'Permission denied' }, 403);
   }
 
-  console.log('response', response);
-
   let text = '';
   let searchEntryPointWithoutDarkMode = '';
   const groundingCitations: GroundingCitation[] = [];
   const groundingSources: GroundingSource[] = [];
+
   for (const candidate of response) {
     text = text + candidate.candidates[0].content.parts[0].text;
+
     if (candidate.candidates[0].groundingMetadata?.groundingChunks) {
       const searchEntryPoint =
         candidate.candidates[0].groundingMetadata.searchEntryPoint
@@ -65,7 +65,6 @@ export const POST = createRoute(async (c) => {
       }
     }
   }
-  console.log('text', text);
 
   const parsedMessage = addCitations(
     text,

@@ -13,7 +13,6 @@ const ChatArea = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('message in handleSubmit', message);
 
     // ユーザーメッセージを追加
     setMessages([...messages, { content: message, isUser: true }]);

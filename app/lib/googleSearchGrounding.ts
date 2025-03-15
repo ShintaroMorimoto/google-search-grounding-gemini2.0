@@ -3,9 +3,8 @@ import type {
   GroundingSource,
 } from '../types/googleSearchGrounding';
 
-// ... existing code ...
 export const addCitations = (
-  parsedMessage: string,
+  responseText: string,
   sources: GroundingSource[],
   citations: GroundingCitation[]
 ): string => {
@@ -43,7 +42,7 @@ export const addCitations = (
   }
 
   // 一度にすべての置換を実行
-  let newParsedMessage = parsedMessage;
+  let newParsedMessage = responseText;
   for (const [original, replacement] of replacementMap.entries()) {
     // 正規表現を使わず単純な文字列置換を使用
     newParsedMessage = newParsedMessage.split(original).join(replacement);
